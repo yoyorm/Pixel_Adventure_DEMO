@@ -42,7 +42,7 @@ public class PlayerControl : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if(_playerState.OnGround&&Mathf.Abs(_rb.velocity.y)<3 &&context.phase==InputActionPhase.Performed)
+        if(_playerState.onGround&&Mathf.Abs(_rb.velocity.y)<4 &&context.phase==InputActionPhase.Performed)
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
 

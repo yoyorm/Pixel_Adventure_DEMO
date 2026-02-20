@@ -10,6 +10,7 @@ public class StartPoint : MonoBehaviour
     {
         BirthPointMgr.instance.NewBirthPoint(transform.position);
         GameManager.Instance.ChangeGameState(GameState.StartGame);
+        Time.timeScale = 1;
         
     }
 

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class EndPoint : MonoBehaviour
 {
-    [SerializeField]
-    bool active = false;
+    [SerializeField] private bool active;
     
     private Animator _animator;
 
@@ -17,11 +16,13 @@ public class EndPoint : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         
-        if (other.CompareTag("Player")&& !active)
+        if (other.CompareTag("Player"))
         {
             active = true;
-            _animator.SetBool("Active", true);
+            EventBus<OverUIEvent>.Publish(new OverUIEvent(true));
+            _animator.SetBool(AnimatorParams.Active, active);
             BirthPointMgr.instance.NewBirthPoint(transform.position);
+            GameManager.Instance.ChangeGameState(GameState.GameOver);
         }
     }
 }

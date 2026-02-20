@@ -84,8 +84,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 701077255280903452}
   animator: {fileID: 4593198449599115577}
-  OnGround: 0
-  disable: 0
+  onGround: 0
+  GroundDistance: 1.3
 --- !u!50 &5803988792337986268
 Rigidbody2D:
   serializedVersion: 4
@@ -365,7 +365,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1743769221
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 50
   m_Sprite: {fileID: -6367560908665664636, guid: 3750f45c844123341b9a777a96cb1eca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

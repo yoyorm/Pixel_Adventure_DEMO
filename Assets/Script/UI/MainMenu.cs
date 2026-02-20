@@ -1,21 +1,20 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class MainMenu : BaseUI<MainMenu>
 {
     
+    
     public void StartGame()
     {
-        System.GC.Collect();
-        SceneManager.LoadScene("Map1");
+        
+        EventBus<ChooseUIEvent>.Publish(new ChooseUIEvent(true));
     }
 
     public void Settings()
     {
         
+        EventBus<SettingUIEvent>.Publish(new SettingUIEvent(true));
     }
     
     public void QuitGame()

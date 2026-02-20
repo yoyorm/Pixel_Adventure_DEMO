@@ -1,10 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public  class PauseUI : BaseUI<PauseUI>
 {
-    public Camera mainCamera;
+    private void Start()
+    {
+        Off();
+        EventBus<PauseUIEvent>.Subscribe(OnChange);
+    }
+
+    private void OnChange(PauseUIEvent e)
+    {
+        if(e.State)
+            On();
+        else
+            Off();
+    }
+
     public void BackToGame()
     {
         Off();
@@ -18,12 +29,13 @@ public  class PauseUI : BaseUI<PauseUI>
 
     public void Setting()
     {
-        //打开设置界面
+        Off();
+        EventBus<SettingUIEvent>.Publish(new SettingUIEvent(true));
     }
 
     public override void On()
     {
-        transform.position=new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y,0);
+        SettingUI.instance.Off();
         base.On();
         Time.timeScale = 0;
     }
@@ -36,5 +48,11 @@ public  class PauseUI : BaseUI<PauseUI>
         
         Time.timeScale = 1;
         GameManager.Instance.ChangeGameState(GameState.InGame);
+    }
+    
+    private new void OnDestroy()
+    {
+        base.OnDestroy();
+        EventBus<PauseUIEvent>.Unsubscribe(OnChange);
     }
 }

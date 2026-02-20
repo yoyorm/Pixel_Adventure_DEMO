@@ -21,7 +21,7 @@ public class MidPoint : MonoBehaviour
         if (other.CompareTag("Player")&& !active)
         {
             active = true;
-            _animator.SetBool("Active", true);
+            _animator.SetBool(AnimatorParams.Active, true);
             BirthPointMgr.instance.NewBirthPoint(transform.position);
         }
     }

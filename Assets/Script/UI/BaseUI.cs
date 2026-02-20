@@ -6,21 +6,24 @@ public abstract class BaseUI<T> : MonoBehaviour where T : class
 {
     private static T _instance;
     public static T instance=>_instance;
+    public Camera mainCamera;
 
-    private void Awake()
+    public  void Awake()
     {
-        _instance = this as T;
+        if (_instance == null)
+            _instance = this as T;
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-
-    private void Start()
-    {
-        Init();
-    }
-    protected virtual void Init(){}
+    
 
     public virtual void On()
     {
         gameObject.SetActive(true);
+        Move();
+        
     }
 
     public virtual void Off()
@@ -28,9 +31,24 @@ public abstract class BaseUI<T> : MonoBehaviour where T : class
         gameObject.SetActive(false);
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         if(instance == this as T)
             _instance=null;
+    }
+
+    protected virtual void Move()
+    {
+        if(mainCamera!=null)
+            transform.position=new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y,0);
+
+    }
+
+    protected void OnEnable()
+    {
+        
+        if(mainCamera==null)
+            mainCamera=Camera.main;
+        
     }
 }

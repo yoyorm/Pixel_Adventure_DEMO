@@ -1,47 +1,50 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class PlayerState : MonoBehaviour
 {
     public GameObject player;
-    private Rigidbody2D rb;
-    private PlayerControl playerControl;
+    private Rigidbody2D _rb;
+    private PlayerControl _playerControl;
     public Animator animator;
-    public bool OnGround =false;
-    public bool disable = false;
+    public bool onGround;
+    public float GroundDistance=1.3f;
+    
+    
 
     private void Start()
     {
-        rb=player.GetComponent<Rigidbody2D>();
-        playerControl=player.GetComponent<PlayerControl>();
+        _rb=player.GetComponent<Rigidbody2D>();
+        _playerControl=player.GetComponent<PlayerControl>();
     }
 
     private void Update()
     {
         //地面检测
-        if (Physics2D.Raycast(transform.position, Vector2.down, 1.2f, ~(1<<3)))
+        if (Physics2D.Raycast(transform.position, Vector2.down, GroundDistance, ~(1<<3)))
         {
-            OnGround = true;
-            animator.SetBool("OnGround",OnGround);
+            onGround = true;
+            animator.SetBool(AnimatorParams.OnGround,onGround);
         }
         else
         {
-            OnGround = false;
-            animator.SetBool("OnGround",OnGround);
+            onGround = false;
+            animator.SetBool(AnimatorParams.OnGround,onGround);
         }
         //受伤动画
+        animator.SetFloat(AnimatorParams.VelocityY,(_rb.velocity.y));
+        animator.SetFloat(AnimatorParams.VelocityX,Math.Abs(_rb.velocity.x));
+        animator.SetBool(AnimatorParams.Disable,_playerControl.disable);
         
-        animator.SetFloat("VelocityY",(rb.velocity.y));
-        animator.SetFloat("VelocityX",Math.Abs(rb.velocity.x));
-
-        animator.SetBool("Disabled",playerControl.disable);
     }
 
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, transform.position - new Vector3(0, 1.2f, 0));
+        Gizmos.DrawLine(transform.position, transform.position - new Vector3(0, GroundDistance, 0));
     }
 }
+
+
+
