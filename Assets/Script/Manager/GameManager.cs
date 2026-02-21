@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
                
                 SceneManager.LoadScene(0);
                 InitMask();
+                Resources.UnloadUnusedAssets();
                 break;
             }
                 
